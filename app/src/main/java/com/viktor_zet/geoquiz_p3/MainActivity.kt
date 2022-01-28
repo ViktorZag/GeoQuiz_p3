@@ -17,6 +17,8 @@ class MainActivity : Activity() {
     private lateinit var nextButton: Button
     private lateinit var questionTextView: TextView
 
+    private var currentIndex = 0
+
     private val questionList = listOf(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
@@ -25,7 +27,6 @@ class MainActivity : Activity() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true)
     )
-    private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,7 @@ class MainActivity : Activity() {
             checkAnswer(false)
         }
         nextButton.setOnClickListener {
-            currentIndex = currentIndex + 1
+            currentIndex++
             if (currentIndex == questionList.size) currentIndex = 0
             updateQuestion()
         }
@@ -91,6 +92,5 @@ class MainActivity : Activity() {
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
-
 
 }
