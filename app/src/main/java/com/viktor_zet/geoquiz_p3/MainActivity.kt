@@ -1,5 +1,6 @@
 package com.viktor_zet.geoquiz_p3
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
     private lateinit var questionTextView: TextView
+    private lateinit var cheatButton: Button
 
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
@@ -40,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
+        cheatButton = findViewById(R.id.cheat_button)
+
+        cheatButton.setOnClickListener {
+            val intent = Intent(this, CheatActivity::class.java)
+            startActivity(intent)
+        }
 
         trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
@@ -53,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
         updateQuestion()
     }
+
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
