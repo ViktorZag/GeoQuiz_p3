@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
+private const val REQUEST_CODE_CHEAT=0
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         cheatButton = findViewById(R.id.cheat_button)
 
         cheatButton.setOnClickListener {
-            val intent = Intent(this, CheatActivity::class.java)
-            startActivity(intent)
+            val intent = CheatActivity.newIntent(this@MainActivity, quizViewModel.currentQuestionAnswer)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
 
         trueButton.setOnClickListener { view: View ->
