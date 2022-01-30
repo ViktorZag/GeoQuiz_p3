@@ -11,7 +11,7 @@ import java.security.AccessControlContext
 
 private const val EXTRA_ANSWER_IS_TRUE =
     "com.viktor_zet.geoquiz_p3.answer_is_true"
-private const val EXTRA_ANSWER_SHOWN = "com.viktor_zet.geoquiz_p3.answer_shown"
+const val EXTRA_ANSWER_SHOWN = "com.viktor_zet.geoquiz_p3.answer_shown"
 
 class CheatActivity : AppCompatActivity() {
     private lateinit var answerTextView: TextView
