@@ -13,12 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
-private const val REQUEST_CODE_CHEAT=0
+private const val REQUEST_CODE_CHEAT = 0
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,9 +76,11 @@ class MainActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    override fun onActivityResult(requestCode: Int,
-                                  resultCode: Int,
-                                  data: Intent?) {
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
             return
@@ -91,6 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
+        quizViewModel.isCheater = false
         questionTextView.setText(questionTextResId)
     }
 

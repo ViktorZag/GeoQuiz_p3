@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.TextView
 import java.security.AccessControlContext
@@ -13,14 +14,22 @@ private const val EXTRA_ANSWER_IS_TRUE =
     "com.viktor_zet.geoquiz_p3.answer_is_true"
 const val EXTRA_ANSWER_SHOWN = "com.viktor_zet.geoquiz_p3.answer_shown"
 
+private const val KEY_CHEAT_INDEX = "cheat_index"
+
 class CheatActivity : AppCompatActivity() {
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
     private var answerIsTrue = false
+    var answerShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
+
+        answerShown = savedInstanceState?.getBoolean(KEY_CHEAT_INDEX, false) ?: true
+        if (answerShown){
+            setAnswerShownResult(answerShown)
+        }
 
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
         answerTextView = findViewById(R.id.answer_text_view)
@@ -31,8 +40,14 @@ class CheatActivity : AppCompatActivity() {
                 else -> R.string.false_button
             }
             answerTextView.setText(answerText)
-            setAnswerShownResult(true)
+            answerShown = true
+            setAnswerShownResult(answerShown)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_CHEAT_INDEX, answerShown)
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {
