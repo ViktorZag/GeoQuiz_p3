@@ -8,6 +8,7 @@ class QuizViewModel : ViewModel() {
 
     var currentIndex = 0
     var isCheater = false
+    var cheatCounter = 0
 
     private val questionList = listOf(
         Question(R.string.question_australia, true),
@@ -23,7 +24,7 @@ class QuizViewModel : ViewModel() {
     val currentQuestionText: Int
         get() = questionList[currentIndex].textResId
 
-    fun moveToNext(){
+    fun moveToNext() {
         currentIndex++
         if (currentIndex == questionList.size) currentIndex = 0
     }

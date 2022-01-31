@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
+private const val KEY_INDEX2 = "index2"
 private const val REQUEST_CODE_CHEAT = 0
 
 
@@ -51,12 +52,17 @@ class MainActivity : AppCompatActivity() {
         cheatButton = findViewById(R.id.cheat_button)
 
 
-        cheatButton.setOnClickListener {view->
-            val intent = CheatActivity.newIntent(this@MainActivity, quizViewModel.currentQuestionAnswer)
+        cheatButton.setOnClickListener { view ->
+            if (quizViewModel.cheatCounter > 1) {
+                cheatButton.isClickable = false
+                cheatButton.isFocusable = false
+            }
+            val intent =
+                CheatActivity.newIntent(this@MainActivity, quizViewModel.currentQuestionAnswer)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val options =   ActivityOptions
+                val options = ActivityOptions
                     .makeClipRevealAnimation(view, 0, 0, view.width, view.height)
-                startActivityForResult(intent, REQUEST_CODE_CHEAT,options.toBundle())
+                startActivityForResult(intent, REQUEST_CODE_CHEAT, options.toBundle())
             } else {
                 startActivityForResult(intent, REQUEST_CODE_CHEAT)
             }
@@ -88,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_CHEAT) {
             quizViewModel.isCheater =
                 data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            quizViewModel.cheatCounter++
         }
     }
 
@@ -105,7 +112,15 @@ class MainActivity : AppCompatActivity() {
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.false_toast
         }
+        val cheatMessage = when (quizViewModel.cheatCounter) {
+            1 -> "You have 2 attempts to cheat"
+            2 -> "You have 1 attempts to cheat"
+            else -> "You have no attempts to cheat"
+        }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+        if (quizViewModel.cheatCounter != 0) {
+            Toast.makeText(this, cheatMessage, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
