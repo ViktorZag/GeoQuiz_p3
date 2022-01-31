@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        val cheatCounter = savedInstanceState?.getInt(KEY_INDEX2, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
+        quizViewModel.cheatCounter=cheatCounter
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -127,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(savedInstanceState)
         Log.i(TAG, "onSaveInstanceState")
         savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
+        savedInstanceState.putInt(KEY_INDEX2,quizViewModel.cheatCounter)
     }
 
     override fun onStart() {
