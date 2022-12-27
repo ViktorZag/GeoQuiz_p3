@@ -5,37 +5,36 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import java.security.AccessControlContext
+import com.viktor_zet.geoquiz_p3.databinding.ActivityCheatBinding
 
-private const val EXTRA_ANSWER_IS_TRUE =
-    "com.viktor_zet.geoquiz_p3.answer_is_true"
+
 const val EXTRA_ANSWER_SHOWN = "com.viktor_zet.geoquiz_p3.answer_shown"
+private const val EXTRA_ANSWER_IS_TRUE = "com.viktor_zet.geoquiz_p3.answer_is_true"
 
 class CheatActivity : AppCompatActivity() {
-    private lateinit var answerTextView: TextView
-    private lateinit var showAnswerButton: Button
+
+    private lateinit var binding: ActivityCheatBinding
     private var answerIsTrue = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cheat)
-
+        binding = ActivityCheatBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
-        answerTextView = findViewById(R.id.answer_text_view)
-        showAnswerButton = findViewById(R.id.show_answer_button)
-        showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
-            }
-            answerTextView.setText(answerText)
+
+        binding.showAnswerButton.setOnClickListener {
+            binding.answerTextView.setText(
+                when {
+                    answerIsTrue -> R.string.true_button
+                    else -> R.string.false_button
+                }
+            )
             setAnswerShownResult(true)
         }
+
     }
 
-    private fun setAnswerShownResult(isAnswerShown: Boolean) {
+    fun setAnswerShownResult(isAnswerShown: Boolean) {
         val data = Intent().apply {
             putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
         }
@@ -49,4 +48,6 @@ class CheatActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

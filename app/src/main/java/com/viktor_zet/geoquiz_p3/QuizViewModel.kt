@@ -1,15 +1,14 @@
 package com.viktor_zet.geoquiz_p3
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
-private const val TAG = "QuizViewModel"
+const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
+const val IS_CHEATER_KEY = "IS_CHEATER_KEY"
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    var currentIndex = 0
-    var isCheater = false
-
-    private val questionList = listOf(
+    private val questionBank = listOf(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
         Question(R.string.question_mideast, false),
@@ -17,15 +16,28 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true)
     )
+
+    private var currentIndex: Int
+        get() = savedStateHandle[CURRENT_INDEX_KEY] ?: 0
+        set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
+
+    var isCheater: Boolean
+        get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
+        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+
     val currentQuestionAnswer: Boolean
-        get() = questionList[currentIndex].answer
+        get() = questionBank[currentIndex].answer
 
     val currentQuestionText: Int
-        get() = questionList[currentIndex].textResId
+        get() = questionBank[currentIndex].resTextId
 
-    fun moveToNext(){
-        currentIndex++
-        if (currentIndex == questionList.size) currentIndex = 0
+    fun moveToNext() {
+        currentIndex = (currentIndex + 1) % questionBank.size
+    }
+
+    fun moveToPrev() {
+        currentIndex--
+        if (currentIndex < 0) currentIndex = questionBank.size - 1
     }
 
 }

@@ -1,4 +1,4 @@
-package com.viktor_zet.geoquiz_p3
+package com.viktor_zet.geoquiz
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.viktor_zet.geoquiz_p3", appContext.packageName)
+        assertEquals("com.viktor_zet.geoquiz", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package com.viktor_zet.geoquiz_p3
+package com.viktor_zet.geoquiz
 
 import org.junit.Test
 
